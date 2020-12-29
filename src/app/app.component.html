@@ -1,0 +1,22 @@
+<div class="main-container">
+  <div class="form-container">
+    <div class="field">
+      <label for="from" class="field__label">From</label>
+      <select [formControl]="fromControl" name="from" id="from" class="field__form-element field__select">        
+        <option *ngFor="let quote of listQuotes" [value]="quote">{{ quote }}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="to" class="field__label">To</label>
+      <select [formControl]="toControl" name="to" id="to" class="field__form-element field__select">
+        <option *ngFor="let quote of listQuotes" [value]="quote">{{ quote }}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="amount" class="field__label">Amount</label>
+      <input currencyMask [formControl]="amountControl" class="field__form-element field__input" id="amount" [options]="{ align: 'left', precision: 0}">
+    </div>
+    
+    <button class="btn-calculate" (click)="onCalculateClick()">Calculate</button>
+  </div>
+</div>
