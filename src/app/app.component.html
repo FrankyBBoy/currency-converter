@@ -14,9 +14,17 @@
     </div>
     <div class="field">
       <label for="amount" class="field__label">Amount</label>
-      <input currencyMask [formControl]="amountControl" class="field__form-element field__input" id="amount" [options]="{ align: 'left', precision: 0}">
+      <input currencyMask [formControl]="amountControl" class="field__form-element field__input" id="amount" [options]="{ align: 'left', precision: 0, prefix: ''}">
     </div>
     
     <button class="btn-calculate" (click)="onCalculateClick()">Calculate</button>
+  </div>
+
+  <div class="result-container">
+    <div class="result" *ngIf="rate && result">
+      <div class="result__first-line">{{ amountControl.value | currency : '' : '' : '1.0-0' }} {{ fromControl.value }} is equal to</div>
+      <div class="result__second-line">{{ result | currency : '' : '' }} {{ toControl.value }}</div>
+      <div class="result__rate">(1 {{ fromControl.value }} = {{ rate }} {{ toControl.value }})</div>
+    </div>    
   </div>
 </div>

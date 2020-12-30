@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './service/api.service';
 
 @Component({
@@ -13,14 +13,30 @@ export class AppComponent implements OnInit {
   public fromControl: FormControl;
   public toControl: FormControl;
   public amountControl: FormControl;
+  public rate: number;
+  public result: number;
 
-  constructor(private apiService: ApiService) { 
-  }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.fromControl = new FormControl('', [Validators.required]);
-    this.toControl = new FormControl('', [Validators.required]);
-    this.amountControl = new FormControl(1, [Validators.required]);
+    this.fromControl = new FormControl(null, [Validators.required]);
+    this.toControl = new FormControl(null, [Validators.required]);
+    this.amountControl = new FormControl(1, [Validators.required, Validators.min(1)]);
+
+    this.fromControl.valueChanges.subscribe( () => {
+      this.rate = null;
+      this.result = null;
+    });
+
+    this.toControl.valueChanges.subscribe( () => {
+      this.rate = null;
+      this.result = null;
+    });
+
+    this.amountControl.valueChanges.subscribe( () => {
+      if (this.rate)
+        this.result = this.amountControl.value * this.rate;
+    });
     
     this.apiService.getListQuote().subscribe( data => {
         this.listQuotes = data;
@@ -29,9 +45,16 @@ export class AppComponent implements OnInit {
   }
 
   onCalculateClick() {
+    if (this.amountControl.invalid || this.fromControl.invalid || this.toControl.invalid) {
+      this.amountControl.markAsDirty();
+      this.fromControl.markAsDirty();
+      this.toControl.markAsDirty();
+      return;
+    } 
+
     this.apiService.getExhange(this.fromControl.value, this.toControl.value).subscribe(result => {
-      console.log("exchange rate: " + result);
-      console.log("equivalent value: " + (this.amountControl.value * result));
+      this.rate = result;
+      this.result = this.amountControl.value * result;
     });
   }
 }

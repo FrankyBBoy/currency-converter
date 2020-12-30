@@ -5,6 +5,7 @@ $color-primary: rgb(102, 174, 224);
     min-height: 100vh;
     
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -12,6 +13,8 @@ $color-primary: rgb(102, 174, 224);
 .form-container {
     display: flex;
     flex-direction: column;
+
+    margin-bottom: 3rem;
 }
 
 .field {
@@ -41,13 +44,17 @@ $color-primary: rgb(102, 174, 224);
         &:focus {
             border: 2px solid darken($color-primary, 15);
         }
+
+        &.ng-dirty.ng-invalid {
+            border: 1px solid red;
+        }
     }
 }
 
 .btn-calculate {
     background-color: darken($color-primary, 25);
     color: lighten($color-primary, 25);
-    border: 1px solid lighten($color-primary, 25);
+    border: none;
     padding: 1rem;
     font-size: 1.6rem;
     text-transform: uppercase;
@@ -65,5 +72,32 @@ $color-primary: rgb(102, 174, 224);
 
     &:active {
         background-color: lighten($color-primary, 20);
+    }
+}
+
+.result-container {
+    height: 9rem;
+}
+
+.result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: #fff;
+
+    &__first-line {
+        font-size: 1.4rem;
+        margin-bottom: -.5rem;
+    }
+
+    &__second-line {
+        font-size: 3.5rem;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    &__rate {
+        font-size: 1.2rem;
     }
 }
